@@ -1,6 +1,6 @@
 # 🍽️ MenuMaster — Sistema Integral de Gestión Gastronómica
 
-[![Deploy on Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render&logoColor=white)](https://menumaster-api.onrender.com)
+[![Deploy on Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render&logoColor=white)](https://menumaster-api-rdta.onrender.com)
 [![Deploy on Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel&logoColor=white)](https://menumaster-app.vercel.app)
 [![Database Neon](https://img.shields.io/badge/Database-Neon%20PostgreSQL-00E599?logo=postgresql&logoColor=white)](https://neon.tech)
 
@@ -11,8 +11,8 @@
 ## 🌐 Enlaces de la Aplicación en Producción
 
 * **Frontend (App Web):** [https://menumaster-app.vercel.app](https://menumaster-app.vercel.app) *(Desplegado en Vercel)*
-* **Backend (API REST):** [https://menumaster-api.onrender.com/api](https://menumaster-api.onrender.com/api) *(Desplegado en Render)*
-* **Health Check API:** [https://menumaster-api.onrender.com/](https://menumaster-api.onrender.com/)
+* **Backend (API REST):** [https://menumaster-api-rdta.onrender.com/api](https://menumaster-api-rdta.onrender.com/api) *(Desplegado en Render)*
+* **Health Check API:** [https://menumaster-api-rdta.onrender.com/](https://menumaster-api-rdta.onrender.com/)
 
 > **Nota para evaluación:** Las credenciales de demostración iniciales creadas por el seeder son:
 > * **Email:** `admin@menumaster.com`
