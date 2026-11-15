@@ -3,16 +3,17 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const { sequelize, User, Category, Dish, RestaurantTable } = require('../models');
 
-const seed = async () => {
+const runSeed = async (forceSync = false) => {
   try {
     console.log('🌱 Iniciando seed de la base de datos...');
 
     await sequelize.authenticate();
     console.log('✅ Conexión a la base de datos establecida.');
 
-    // Reiniciar todas las tablas
-    await sequelize.sync({ force: true });
-    console.log('✅ Tablas recreadas.');
+    if (forceSync) {
+      await sequelize.sync({ force: true });
+      console.log('✅ Tablas recreadas.');
+    }
 
     // ========================
     // Crear usuario administrador
@@ -43,7 +44,6 @@ const seed = async () => {
     const categories = await Category.bulkCreate(categoriesData);
     console.log(`✅ ${categories.length} categorías creadas.`);
 
-    // Mapear categorías por nombre para referencia fácil
     const catMap = {};
     categories.forEach((cat) => {
       catMap[cat.name] = cat.id;
@@ -102,23 +102,23 @@ const seed = async () => {
       // Pastas
       {
         categoryId: catMap['Pastas'],
-        name: 'Ravioles de Ricotta y Nuez',
-        description: 'Ravioles caseros con salsa filetto',
-        price: 7800.00,
+        name: 'Sorrentinos de Jamón y Queso con Salsa Fileto',
+        description: 'Masa casera rellena con salsa de tomate tradicional',
+        price: 8200.00,
         displayOrder: 1,
       },
       {
         categoryId: catMap['Pastas'],
-        name: 'Ñoquis de Papa',
-        description: 'Ñoquis caseros con salsa bolognesa o pesto',
-        price: 7200.00,
+        name: 'Ravioles de Espinaca y Ricotta',
+        description: 'Con salsa bolognesa de carne y parmesano',
+        price: 8000.00,
         displayOrder: 2,
       },
       {
         categoryId: catMap['Pastas'],
-        name: 'Fetuccini Alfredo',
-        description: 'Fetuccini con salsa crema, parmesano y champiñones',
-        price: 8200.00,
+        name: 'Ñoquis de Papa al Pesto',
+        description: 'Ñoquis suaves con pesto de albahaca fresca y nueces',
+        price: 7600.00,
         displayOrder: 3,
       },
 
@@ -126,69 +126,83 @@ const seed = async () => {
       {
         categoryId: catMap['Carnes'],
         name: 'Bife de Chorizo (400g)',
-        description: 'Corte jugoso a la parrilla con guarnición a elección',
-        price: 14500.00,
+        description: 'Corte clásico argentino a la parrilla con guarnición',
+        price: 13500.00,
         displayOrder: 1,
       },
       {
         categoryId: catMap['Carnes'],
-        name: 'Ojo de Bife (350g)',
-        description: 'Corte premium con papas rústicas',
-        price: 15800.00,
+        name: 'Ojo de Bife',
+        description: 'Jugoso corte con chimichurri y vegetales asados',
+        price: 14200.00,
         displayOrder: 2,
       },
       {
         categoryId: catMap['Carnes'],
-        name: 'Entraña a la Parrilla',
-        description: 'Entraña con chimichurri casero y verduras grilladas',
-        price: 13200.00,
+        name: 'Asado de Tira',
+        description: 'Costillar vacuno a la parrilla con papas rústicas',
+        price: 12800.00,
         displayOrder: 3,
       },
 
       // Postres
       {
         categoryId: catMap['Postres'],
-        name: 'Flan Casero con Dulce de Leche',
-        description: 'Flan de vainilla con dulce de leche y crema',
-        price: 4200.00,
+        name: 'Flan Casero Mixto',
+        description: 'Con dulce de leche y crema chantilly',
+        price: 3600.00,
         displayOrder: 1,
       },
       {
         categoryId: catMap['Postres'],
-        name: 'Tiramisú',
-        description: 'Clásico tiramisú italiano con café y mascarpone',
-        price: 5500.00,
+        name: 'Tiramisú Tradicional',
+        description: 'Vainillas embebidas en café con crema de mascarpone',
+        price: 4200.00,
         displayOrder: 2,
       },
       {
         categoryId: catMap['Postres'],
-        name: 'Panqueques con Dulce de Leche',
-        description: 'Panqueques rellenos con dulce de leche y bañados en chocolate',
-        price: 4800.00,
+        name: 'Volcán de Chocolate',
+        description: 'Bizcocho tibio de chocolate con corazón fundido y helado',
+        price: 4500.00,
         displayOrder: 3,
       },
 
       // Bebidas
       {
         categoryId: catMap['Bebidas'],
-        name: 'Agua Mineral (500ml)',
-        description: 'Con o sin gas',
-        price: 1800.00,
+        name: 'Gaseosa Línea Coca-Cola 500ml',
+        description: 'Coca-Cola, Coca-Cola Zero, Sprite, Fanta',
+        price: 2200.00,
         displayOrder: 1,
       },
       {
         categoryId: catMap['Bebidas'],
-        name: 'Gaseosa (500ml)',
-        description: 'Coca-Cola, Sprite o Fanta',
-        price: 2200.00,
+        name: 'Cerveza Patagonia 730ml',
+        description: 'Bohemian Pilsener, Amber Ale o 24.7 IPA',
+        price: 4800.00,
         displayOrder: 2,
       },
       {
         categoryId: catMap['Bebidas'],
-        name: 'Cerveza Artesanal (pinta)',
-        description: 'Variedad del día: Rubia, Roja o IPA',
-        price: 3800.00,
+        name: 'Vino Malbec Reserva 750ml',
+        description: 'Vino tinto de bodega seleccionada de Mendoza',
+        price: 7500.00,
         displayOrder: 3,
+      },
+      {
+        categoryId: catMap['Bebidas'],
+        name: 'Agua Mineral 500ml',
+        description: 'Con o sin gas',
+        price: 1800.00,
+        displayOrder: 4,
+      },
+      {
+        categoryId: catMap['Bebidas'],
+        name: 'Café Espresso / Cortado',
+        description: 'Café de grano recién molido',
+        price: 2000.00,
+        displayOrder: 5,
       },
     ];
 
@@ -215,13 +229,17 @@ const seed = async () => {
     console.log('\n🎉 ¡Seed completado exitosamente!');
     console.log('📧 Login: admin@menumaster.com');
     console.log('🔑 Password: Admin123!');
-
-    process.exit(0);
   } catch (error) {
     console.error('❌ Error durante el seed:', error.message);
-    console.error(error);
-    process.exit(1);
+    throw error;
   }
 };
 
-seed();
+// Si se ejecuta directamente desde terminal:
+if (require.main === module) {
+  runSeed(true)
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}
+
+module.exports = { runSeed };
