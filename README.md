@@ -113,7 +113,7 @@ menumaster/
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/TU_USUARIO/menumaster.git
+git clone https://github.com/TAIN-git/menumaster.git
 cd menumaster
 ```
 
